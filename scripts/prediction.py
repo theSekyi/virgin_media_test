@@ -1,3 +1,4 @@
+import logging
 import os
 from pathlib import Path
 
@@ -10,6 +11,10 @@ from scripts.train import predict_with_xgboost_classifier
 
 ADOPTION_THRESHOLD = 0.5
 
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s", handlers=[logging.StreamHandler()],
+)
+
 
 def load_xgboost_model(model_path):
     """
@@ -21,8 +26,10 @@ def load_xgboost_model(model_path):
     Returns:
         xgb.Booster: The loaded XGBoost model.
     """
+    logging.info(f"Loading XGBoost model from {model_path}")
     model = xgb.Booster()
     model.load_model(model_path)
+    logging.info(f"XGBoost model loaded successfully from {model_path}")
     return model
 
 
@@ -37,7 +44,10 @@ def convert_prob_to_target(y_pred, threshold=ADOPTION_THRESHOLD):
     Returns:
         list: The list of target classes.
     """
-    return ["Yes" if p >= threshold else "No" for p in y_pred]
+    logging.info(f"Converting probabilities to target classes with threshold {threshold}")
+    target_classes = ["Yes" if p >= threshold else "No" for p in y_pred]
+    logging.info(f"Conversion complete. Total classes: {len(target_classes)}")
+    return target_classes
 
 
 def predict(model, preprocess_df):
@@ -67,6 +77,10 @@ def main():
     convert_y_pred_to_target = predict(model, preprocess_df)
 
     df["Adopted_prediction"] = convert_y_pred_to_target
+
+    logging.info(f"Output csv DataFrame shape: {df.shape}")
+    logging.info(f"Output csv DataFrame columns: {df.columns}")
+    logging.info("Output csv DataFrame's content:\n" + str(df.head()))
 
     root_dir = get_root_dir()
     create_output_dir(root_dir)
