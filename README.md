@@ -3,16 +3,28 @@ This repository represents a solution sample for the problem stated in `test.md`
 0. Navigate to the the virgin_media_test repo:
 
 1. Create a virtual environment
-   `python -m venv .venv`
+
+   ```
+   python -m venv .venv
+   ```
 
 2. Activate the virtual environment
-   `source .venv/bin/activate`
+
+   ```
+   source .venv/bin/activate
+   ```
 
 3. Install the required packages in the virtual environment
-   `pip install -r requirements.txt`
+
+   ```
+   pip install -r requirements.txt
+   ```
 
 4. To get data from the GCS bucket, run the following
-   `python scripts/get_data.py`
+
+   ```
+   python scripts/get_data.py
+   ```
 
 5. To train a model, run
    ```
@@ -26,4 +38,6 @@ This step will train a model using xgboost and serialize it to <b>artifacts/mode
    This loads the trained model from the directory above and outputs a resulting CSV to `output/results.csv`. The contents of the output directory will be excluded from using .gitignore
 
 7. We also have some tests written in pytest. To run the tests, use the command
-   `pytest`
+   ```
+   pytest
+   ```
