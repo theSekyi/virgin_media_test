@@ -68,14 +68,10 @@ def load_data(
     """
     logging.info(f"Loading data from {bucket_name}/{file_name}")
 
-    # bucket_name = "cloud-samples-data"
-    # file_name = "ai-platform-unified/datasets/tabular/petfinder-tabular-classification.csv"
-
     storage_client = create_storage_client()
     csv_string = download_blob_as_string(storage_client, bucket_name, file_name)
     df = read_csv_from_string(csv_string)
 
-    # Perform any operations on the DataFrame here
     logging.info(f"DataFrame shape: {df.shape}")
     logging.info(f"DataFrame columns: {df.columns}")
     logging.info("DataFrame's content:\n" + str(df.head()))
