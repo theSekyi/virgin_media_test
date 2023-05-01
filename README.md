@@ -33,8 +33,12 @@ This repository represents a solution sample for the problem stated in `test.md`
 
 This step will train a model using xgboost and serialize it to <b>artifacts/model/xgboost_classifier.model</b>
 
-6. To ran predictions on using a trained model ran,
-   `python scripts/prediction.py`
+6. To ran predictions using a trained model ran,
+
+   ```
+   python scripts/prediction.py
+   ```
+
    This loads the trained model from the directory above and outputs a resulting CSV to `output/results.csv`. The contents of the output directory will be excluded from using .gitignore
 
 7. We also have some tests written in pytest. To run the tests, use the command
