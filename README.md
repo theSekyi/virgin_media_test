@@ -15,7 +15,9 @@ This repository represents a solution sample for the problem stated in `test.md`
    `python scripts/get_data.py`
 
 5. To train a model, run
-   `python scripts/train.py`
+   ```
+   python scripts/train.py
+   ```
 
 This step will train a model using xgboost and serialize it to <b>artifacts/model/xgboost_classifier.model</b>
 
