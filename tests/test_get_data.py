@@ -46,38 +46,39 @@ def test_read_csv_from_string():
     assert list(df.columns) == expected_columns, "Dataframe should have the expected columns"
 
 
-def test_load_data(mocker):
+def test_load_data():
     # Mock the GCS bucket and upload sample_data to it
-    mocker.patch.object(storage, "Client")
-    client = storage.Client()
-    bucket_name = "cloud-samples-data"
-    blob_name = "petfinder-tabular-classification.csv"
-    bucket = client.create_bucket(bucket_name)
-    blob = bucket.blob(blob_name)
-    blob.upload_from_string(sample_data)
+    with mock.patch.object(storage, "Client") as mock_storage_client:
+        client = storage.Client()
+        bucket_name = "cloud-samples-data"
+        blob_name = "petfinder-tabular-classification.csv"
+        bucket = client.create_bucket(bucket_name)
+        blob = bucket.blob(blob_name)
+        blob.upload_from_string(sample_data)
 
-    # Mock download_blob_as_string to return sample_data
-    mocker.patch("scripts.get_data.download_blob_as_string", return_value=sample_data)
+        # Mock download_blob_as_string to return sample_data
+        with mock.patch("scripts.get_data.download_blob_as_string", return_value=sample_data):
 
-    # Test the load_data function
-    df = load_data(bucket_name=bucket_name, file_name=blob_name)
-    assert not df.empty, "Dataframe should not be empty"
-    expected_columns = [
-        "Age",
-        "Breed1",
-        "Color1",
-        "Color2",
-        "MaturitySize",
-        "FurLength",
-        "Vaccinated",
-        "Sterilized",
-        "Health",
-        "Fee",
-        "PhotoAmt",
-        "Adopted",
-        "Type_Cat",
-        "Type_Dog",
-        "Gender_Female",
-        "Gender_Male",
-    ]
-    assert list(df.columns) == expected_columns, "Dataframe should have the expected columns"
+            # Test the load_data function
+            df = load_data(bucket_name=bucket_name, file_name=blob_name)
+            assert not df.empty, "Dataframe should not be empty"
+            expected_columns = [
+                "Age",
+                "Breed1",
+                "Color1",
+                "Color2",
+                "MaturitySize",
+                "FurLength",
+                "Vaccinated",
+                "Sterilized",
+                "Health",
+                "Fee",
+                "PhotoAmt",
+                "Adopted",
+                "Type_Cat",
+                "Type_Dog",
+                "Gender_Female",
+                "Gender_Male",
+            ]
+            assert list(df.columns) == expected_columns, "Dataframe should have the expected columns"
+
