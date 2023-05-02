@@ -1,5 +1,11 @@
+import sys
+from pathlib import Path
+
+root_dir = str(Path(__file__).resolve().parent.parent)
+if root_dir not in sys.path:
+    sys.path.append(root_dir)
+
 import logging
-import os
 
 import pandas as pd
 import xgboost as xgb
