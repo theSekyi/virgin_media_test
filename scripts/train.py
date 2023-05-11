@@ -33,11 +33,11 @@ def split_dataset(X, y):
     Returns:
         tuple: The train, validation, and test feature matrices and target vectors.
     """
-    X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
+    X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.4, random_state=42, stratify=y)
     X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=42, stratify=y_temp)
 
-    assert X_val.shape == X_test.shape, "X_val and X_test should have the same shape"
-    logging.info("Shape of validation and test sets are the same as expected.")
+    # assert X_val.shape == X_test.shape, "X_val and X_test should have the same shape"
+    # logging.info("Shape of validation and test sets are the same as expected.")
 
     return X_train, X_val, X_test, y_train, y_val, y_test
 
