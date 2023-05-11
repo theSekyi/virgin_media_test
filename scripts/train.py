@@ -9,6 +9,7 @@ import logging
 
 import pandas as pd
 import xgboost as xgb
+from imblearn.over_sampling import SMOTE
 from sklearn.metrics import accuracy_score, f1_score, recall_score
 from sklearn.model_selection import train_test_split
 
@@ -153,7 +154,13 @@ def save_model(model, model_dir="artifacts/model", model_filename="xgboost_class
     logging.info(f"Model saved to {model_file_path}")
 
 
-def train_and_evaluate(df):
+def apply_smote(X, y):
+    sm = SMOTE(random_state=42)
+    X_res, y_res = sm.fit_resample(X, y)
+    return X_res, y_res
+
+
+def train_and_evaluate(df, oversample=False):
     """
     Trains and evaluates an XGBoost classifier on the given DataFrame.
 
@@ -171,6 +178,10 @@ def train_and_evaluate(df):
 
     try:
         X_train, X_val, X_test, y_train, y_val, y_test = split_dataset(X, y)
+
+        if oversample:
+            X_train, y_train = apply_smote(X_train, y_train)
+
         classifier_model = train_xgboost_classifier(X_train, y_train, X_val, y_val)
         accuracy, f1, recall = evaluate_xgboost_classifier(classifier_model, X_test, y_test)
 
